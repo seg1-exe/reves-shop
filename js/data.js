@@ -75,12 +75,12 @@ XL : 82cm longueur / 66cm largeur`
     id: "jersey",
     label: "Jersey Rêves 8",
     typo: null,
-    price: 60,
+    price: 40,
     available: false,
     card: "assets/jersey.png",
     images: ["assets/jersey.png"],
     info:
-`Jersey officiel Rêves — floqué numéro 8.
+`Jersey officiel Rêves 8.
 Édition limitée. Actuellement épuisé.`
   },
   {

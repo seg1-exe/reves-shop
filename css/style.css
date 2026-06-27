@@ -383,21 +383,20 @@ body[data-page="home"] .page {
   margin: 0 auto;
   padding: calc(var(--header-h) + 10px) 28px 40px;
 }
-/* nom du produit en haut à gauche, sous le logo */
-/* bloc titre + prix, en absolu : descend sans pousser les autres éléments */
+/* bloc titre + prix : fixé au viewport (comme le header) pour s'aligner avec le logo */
 .product__head {
-  position: absolute;
+  position: fixed;
   top: calc(var(--header-h) + 20px);
   left: 28px;
   max-width: min(560px, 46%);   /* passe sur 2 lignes si trop long, sans aller sous la grue */
-  z-index: 2;
+  z-index: 5;
 }
 .product__pagetitle {
   margin: 0;
   text-align: left;
-  text-wrap: balance;           /* équilibre les 2 lignes (pas de mot orphelin) */
+  white-space: pre-line;        /* respecte le saut de ligne du nom */
   font-weight: 800;
-  font-size: clamp(26px, 3.6vw, 44px);
+  font-size: clamp(26px, 3.4vw, 42px);
   line-height: 1.05;
   letter-spacing: -0.04em;
 }

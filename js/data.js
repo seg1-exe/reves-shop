@@ -30,7 +30,7 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "lbady-white",
     label: "T-shirt White version",
-    name: "Le Bleu Des Yeux T-shirt",
+    name: "Le bleu a des yeux\nT-shirt version blanche",
     typo: "assets/lbady-typo.png",
     price: 30,
     available: true,
@@ -41,7 +41,7 @@ XL : 82cm longueur / 66cm largeur`
       "assets/lbady-white-back.png"
     ],
     info:
-`« Le Bleu Des Yeux » — version blanche.
+`« Le bleu a des yeux » — version blanche.
 Oversize et coton épais ! Sérigraphie bleue artisanale sur coton blanc — 100% Coton.
 Design original par Rêves & aoibluevi.
 
@@ -55,7 +55,7 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "lbady-blue",
     label: "T-shirt Blue version",
-    name: "Le Bleu Des Yeux T-shirt",
+    name: "Le bleu a des yeux\nT-shirt version bleue",
     typo: "assets/lbady-typo.png",
     price: 30,
     available: true,
@@ -66,7 +66,7 @@ XL : 82cm longueur / 66cm largeur`
       "assets/lbady-blue-back.png"
     ],
     info:
-`« Le Bleu Des Yeux » — version bleue.
+`« Le bleu a des yeux » — version bleue.
 Oversize et coton épais ! Sérigraphie blanche artisanale sur coton bleu — 100% Coton.
 Design original par Rêves & aoibluevi.
 
@@ -92,8 +92,8 @@ XL : 82cm longueur / 66cm largeur`
   },
   {
     id: "cd",
-    label: "CD — Le Bleu Des Yeux",
-    name: "CD — Le Bleu Des Yeux",
+    label: "CD — Le bleu a des yeux",
+    name: "CD — Le bleu a des yeux",
     typo: "assets/lbady-typo.png",
     price: 15,
     available: false,
@@ -101,7 +101,7 @@ XL : 82cm longueur / 66cm largeur`
     card: "assets/lbady-cd.png",
     images: ["assets/lbady-cd.png"],
     info:
-`CD « Le Bleu Des Yeux » + livret.
+`CD « Le bleu a des yeux » + livret.
 Édition physique. Actuellement épuisé.`
   }
 ];

@@ -3,9 +3,11 @@ window.PRODUCTS = [
   {
     id: "bleached",
     label: "T-shirt",
+    name: "Bleached T-shirt",
     typo: "assets/bleached-typo.png",
     price: 30,
     available: true,
+    spotify: "3fm5uEHogwcjhaWsR4RboN",
     card: "assets/bleached-front.png",
     images: [
       "assets/bleached-front.png",
@@ -28,9 +30,11 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "lbady-white",
     label: "T-shirt White version",
+    name: "Le Bleu Des Yeux T-shirt",
     typo: "assets/lbady-typo.png",
     price: 30,
     available: true,
+    spotify: "0oTghbuoMeHAdBLcUaDHvc",
     card: "assets/lbady-white-front.png",
     images: [
       "assets/lbady-white-front.png",
@@ -51,9 +55,11 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "lbady-blue",
     label: "T-shirt Blue version",
+    name: "Le Bleu Des Yeux T-shirt",
     typo: "assets/lbady-typo.png",
     price: 30,
     available: true,
+    spotify: "0oTghbuoMeHAdBLcUaDHvc",
     card: "assets/lbady-blue-front.png",
     images: [
       "assets/lbady-blue-front.png",
@@ -74,6 +80,7 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "jersey",
     label: "Jersey Rêves 8",
+    name: "Jersey Rêves 8",
     typo: null,
     price: 40,
     available: false,
@@ -86,14 +93,16 @@ XL : 82cm longueur / 66cm largeur`
   {
     id: "cd",
     label: "CD — Le Bleu Des Yeux",
+    name: "CD — Le Bleu Des Yeux",
     typo: "assets/lbady-typo.png",
     price: 15,
     available: false,
+    spotify: "0oTghbuoMeHAdBLcUaDHvc",
     card: "assets/lbady-cd.png",
     images: ["assets/lbady-cd.png"],
     info:
 `CD « Le Bleu Des Yeux » + livret.
-Édition physique. Actuellement épuisée.`
+Édition physique. Actuellement épuisé.`
   }
 ];
 

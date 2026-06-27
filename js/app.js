@@ -7,18 +7,20 @@
   /* ---------------- i18n ---------------- */
   var I18N = {
     fr: {
-      home: "Homepage", contact: "Contact", cartNav: "Cart",
-      cartTitle: "CART", total: "Total", checkout: "CHECKOUT",
-      continue: "Continue shopping", add: "Ajouter au panier",
-      soldout: "SOLD OUT", informations: "INFORMATIONS",
-      other: "Other products", size: "Taille",
-      cartEmpty: "Votre panier est vide.", selectSize: "Choisissez une taille d'abord.",
+      home: "Accueil", contact: "Contact", cartNav: "Panier",
+      cartTitle: "PANIER", total: "Total", checkout: "COMMANDER",
+      continue: "Continuer les achats", add: "Ajouter au panier",
+      goToCart: "Voir le panier",
+      soldout: "ÉPUISÉ", informations: "INFORMATIONS",
+      other: "Autres produits", size: "Taille",
+      cartEmpty: "Votre panier est vide.", selectSize: "Choisissez d'abord une taille.",
       cartLink: "Panier", checkoutMsg: "Merci ! Commande simulée — paiement non connecté."
     },
     en: {
       home: "Homepage", contact: "Contact", cartNav: "Cart",
       cartTitle: "CART", total: "Total", checkout: "CHECKOUT",
       continue: "Continue shopping", add: "Add to cart",
+      goToCart: "Go to cart",
       soldout: "SOLD OUT", informations: "INFORMATIONS",
       other: "Other products", size: "Size",
       cartEmpty: "Your cart is empty.", selectSize: "Please choose a size first.",
@@ -26,12 +28,13 @@
     },
     jp: {
       home: "ホーム", contact: "お問い合わせ", cartNav: "カート",
-      cartTitle: "カート", total: "合計", checkout: "購入する",
-      continue: "買い物を続ける", add: "カートに追加",
-      soldout: "完売", informations: "商品情報",
+      cartTitle: "カート", total: "合計", checkout: "購入手続きへ",
+      continue: "買い物を続ける", add: "カートに入れる",
+      goToCart: "カートを見る",
+      soldout: "売り切れ", informations: "商品情報",
       other: "その他の商品", size: "サイズ",
-      cartEmpty: "カートは空です。", selectSize: "先にサイズを選択してください。",
-      cartLink: "カート", checkoutMsg: "ありがとうございます！購入はシミュレーションです。"
+      cartEmpty: "カートは空です。", selectSize: "先にサイズをお選びください。",
+      cartLink: "カート", checkoutMsg: "ご注文ありがとうございます！これはデモのため決済は行われません。"
     }
   };
 
@@ -100,7 +103,7 @@
       '<nav class="menu__nav">' +
         '<a href="index.html" data-i18n="home"></a>' +
         '<a href="mailto:reves.contact@gmail.com" data-i18n="contact"></a>' +
-        '<a href="cart.html" data-i18n="cartNav"></a>' +
+        '<a href="cart.html" id="menu-cart"></a>' +
       '</nav>' +
       '<div class="lang">' +
         '<button data-lang="fr">FR</button><span>/</span>' +
@@ -148,7 +151,15 @@
     document.querySelectorAll(".lang button").forEach(function (b) {
       b.classList.toggle("active", b.getAttribute("data-lang") === getLang());
     });
+    updateCartNav();
     if (typeof window.__onLangChange === "function") window.__onLangChange();
+  }
+  // « Panier (1) » dans le menu — nombre d'articles entre parenthèses
+  function updateCartNav() {
+    var el = document.getElementById("menu-cart");
+    if (!el) return;
+    var c = cartCount();
+    el.textContent = t("cartNav") + (c > 0 ? " (" + c + ")" : "");
   }
   function updateBadge() {
     var c = cartCount();
@@ -156,6 +167,7 @@
       b.textContent = c;
       b.setAttribute("data-empty", c === 0 ? "true" : "false");
     });
+    updateCartNav();
   }
 
   /* ---------------- Helpers ---------------- */
@@ -220,7 +232,7 @@
       if (id === "other") {
         grid.insertAdjacentHTML("beforeend",
           '<a class="card card--other" href="product.html?id=other">' +
-            '<div class="card__top"><span class="card__price"></span>' + MOVE_ICON + '</div>' +
+            '<div class="card__top"><span class="card__price">Sold out</span>' + MOVE_ICON + '</div>' +
             '<div class="card__media"><img src="assets/other-products.png" alt="Other products"></div>' +
             '<div class="card__name"><span class="card__label" data-i18n="other"></span></div>' +
           '</a>');
@@ -244,6 +256,14 @@
      PRODUCT PAGE
      ============================================================ */
   var SIZES = ["XS", "S", "M", "L", "XL"];
+
+  function spotifyEmbed(albumId) {
+    if (!albumId) return "";
+    return '<iframe data-testid="embed-iframe" style="border-radius:12px" ' +
+      'src="https://open.spotify.com/embed/album/' + albumId + '?utm_source=generator" ' +
+      'width="100%" height="352" frameBorder="0" allowfullscreen ' +
+      'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+  }
 
   function initProduct() {
     var id = param("id") || "bleached";
@@ -275,7 +295,10 @@
         '<div class="sizes" id="sizes">' +
           SIZES.map(function (s) { return '<button class="size-btn" data-size="' + s + '">' + s + '</button>'; }).join("") +
         '</div>' +
-        '<button class="btn-primary" id="add" data-i18n="add"></button>';
+        '<div class="actions-row" id="actions-row">' +
+          '<button class="btn-primary" id="add" data-i18n="add"></button>' +
+          '<a class="btn-primary btn-go" id="go-to-cart" href="cart.html" data-i18n="goToCart"></a>' +
+        '</div>';
       actions.querySelectorAll(".size-btn").forEach(function (b) {
         b.addEventListener("click", function () {
           selectedSize = b.getAttribute("data-size");
@@ -286,20 +309,30 @@
       document.getElementById("add").addEventListener("click", function () {
         if (!selectedSize) { alert(t("selectSize")); return; }
         addToCart(p.id, selectedSize);
+        document.getElementById("actions-row").classList.add("show-go");  // fait apparaître « Voir le panier »
         var btn = document.getElementById("add");
         btn.textContent = "✓ " + t("add");
         setTimeout(function () { btn.textContent = t("add"); }, 1200);
       });
+      // si le panier contient déjà des articles, le bouton est visible d'emblée
+      if (cartCount() > 0) document.getElementById("actions-row").classList.add("show-go");
     } else {
       actions.innerHTML = '<button class="btn-primary" disabled data-i18n="soldout"></button>';
     }
+
+    var titleEl = document.getElementById("product-pagetitle");
+    if (titleEl) titleEl.textContent = p.name || p.label;
+    var priceEl = document.getElementById("product-pageprice");
+    if (priceEl) priceEl.textContent = p.price + "€";
+
+    var spotifyEl = document.getElementById("spotify");
+    if (spotifyEl) spotifyEl.innerHTML = spotifyEmbed(p.spotify);
 
     infoBody.innerHTML =
       '<p class="info__price">' + p.price + '€</p>' +
       '<p>' + p.info + '</p>';
 
-    // titre de l'onglet
-    document.title = "Rêves — " + p.label;
+    document.title = "Rêves — " + (p.name || p.label);
   }
 
   function initOther() {
@@ -317,7 +350,13 @@
       var p = list[current];
       stage.innerHTML = '<img src="' + p.images[0] + '" alt="' + p.label + '">';
       infoBody.innerHTML = '<p class="info__price">' + p.price + '€ — <span data-i18n="soldout"></span></p><p>' + p.info + '</p>';
-      if (titleEl) titleEl.textContent = p.label;
+      var pt = document.getElementById("product-pagetitle");
+      if (pt) pt.textContent = p.name || p.label;
+      var pp = document.getElementById("product-pageprice");
+      if (pp) pp.textContent = p.price + "€";
+      var sp = document.getElementById("spotify");
+      if (sp) sp.innerHTML = spotifyEmbed(p.spotify);
+      document.title = "Rêves — " + (p.name || p.label);
       applyLang();
     }
     thumbs.innerHTML = list.map(function (p, i) {
